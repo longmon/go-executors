@@ -6,11 +6,12 @@ import (
 
 //Job 任务对象
 type Job struct {
-	fun  Fn
+	fun  fn
 	done chan struct{}
 	err  error
 }
 
+//fn 任务
 type fn func()
 
 func newjob(fun fn) *Job {
