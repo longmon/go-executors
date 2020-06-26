@@ -8,7 +8,7 @@ go 轻量线程池
 //初始化100个线程，执行过程动态调整线程，最多1000个，最少100
 executor.InitExecutorWithCapacity(100, 1000)
 
-//添加异步执行任务， 返回任务对象和错误，如果不关注返回或不等待执行结果可不处理返回
+//添加异步执行任务， 返回任务对象和错误，
 job, err := executor.Run(func(){
     //task code here
 })
@@ -19,6 +19,7 @@ if err != nil {
 }
 
 //同步等待任务执行结束，返回的错误信息是任务执行过程中产生的panic
+//如果不关注返回或不必等待执行结果可不处理返回
 err = job.Wait(func(){
   //run after task done  
 })
