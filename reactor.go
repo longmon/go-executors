@@ -4,15 +4,16 @@ import (
 	"fmt"
 )
 
+//Job 任务对象
 type Job struct {
 	fun  Fn
 	done chan struct{}
 	err  error
 }
 
-type Fn func()
+type fn func()
 
-func newjob(fun Fn) *Job {
+func newjob(fun fn) *Job {
 	return &Job{
 		fun:  fun,
 		done: make(chan struct{}, 1),
@@ -33,7 +34,7 @@ func (j *Job) exec() {
 	j.fun()
 }
 
-//Wait wait for job done
+//Wait 同步等待任务执行结束，返回的错误为任务执行过程产生的panic
 func (j *Job) Wait(f func()) error {
 	select {
 	case <-j.done:
