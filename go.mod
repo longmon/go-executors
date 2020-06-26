@@ -1,3 +1,3 @@
-module go-executors
+module github.com/longmon/go-executors
 
 go 1.14
