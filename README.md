@@ -6,10 +6,10 @@ go 轻量线程池
 ```go
 //全局初始化线程池，应仅在启动时执行一次，多次执行无效
 //初始化100个线程，执行过程动态调整线程，最多1000个，最少100
-executor.InitExecutorWithCapacity(100, 1000)
+executors.InitExecutorWithCapacity(100, 1000)
 
 //添加异步执行任务， 返回任务对象和错误，
-job, err := executor.Run(func(){
+job, err := executors.Run(func(){
     //task code here
 })
 
@@ -25,7 +25,7 @@ err = job.Wait(func(){
 })
 
 //优雅地关闭线程池，一般情况下不必关闭吧
-executor.Shutdown()
+executors.Shutdown()
 
 
 ```
