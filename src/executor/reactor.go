@@ -2,7 +2,6 @@ package executor
 
 import (
 	"fmt"
-	"log"
 )
 
 type Job struct {
@@ -38,7 +37,6 @@ func (j *Job) exec() {
 func (j *Job) Wait(f func()) error {
 	select {
 	case <-j.done:
-		log.Println("wait func")
 		f()
 	}
 	return j.err
