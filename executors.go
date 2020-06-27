@@ -63,9 +63,10 @@ func InitExecutorWithCapacity(min, capacity int32) {
 }
 
 //Run 执行任务
-func Run(fun fn) (*Job, error) {
+func Run(fun interface{}) (*Job, error) {
 	return exector.add(fun)
 }
+
 
 //Shutdown 准备关闭线程池
 func Shutdown() {
@@ -169,7 +170,7 @@ func (e *_executor) reduce() {
 	}
 }
 
-func (e *_executor) add(fun fn) (*Job, error) {
+func (e *_executor) add(fun interface{}) (*Job, error) {
 	if e.shutdown {
 		return nil, fmt.Errorf("executor is going down")
 	}
