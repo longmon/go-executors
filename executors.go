@@ -38,8 +38,8 @@ type _executor struct {
 var exector *_executor
 var once = &sync.Once{}
 
-//InitExecutorWithCapacity 初始化线程池
-func InitExecutorWithCapacity(min, capacity int32) {
+//InitWithCapacity 初始化线程池
+func InitWithCapacity(min, capacity int32) {
 	once.Do(func() {
 		exector = &_executor{
 			cap:      capacity,
@@ -63,10 +63,9 @@ func InitExecutorWithCapacity(min, capacity int32) {
 }
 
 //Run 执行任务
-func Run(fun interface{}) (*Job, error) {
+func Run(fun Fn) (*Job, error) {
 	return exector.add(fun)
 }
-
 
 //Shutdown 准备关闭线程池
 func Shutdown() {
@@ -125,6 +124,7 @@ func (e *_executor) monitor() {
 	}
 }
 
+//scale 扩展线程池
 func (e *_executor) scale() {
 	jobFullKeepTimes := 0
 	for {
@@ -147,6 +147,7 @@ func (e *_executor) scale() {
 	}
 }
 
+//reduce 缩小线程池
 func (e *_executor) reduce() {
 	idleKeepTimes := 0
 	for {
@@ -170,7 +171,7 @@ func (e *_executor) reduce() {
 	}
 }
 
-func (e *_executor) add(fun interface{}) (*Job, error) {
+func (e *_executor) add(fun Fn) (*Job, error) {
 	if e.shutdown {
 		return nil, fmt.Errorf("executor is going down")
 	}
